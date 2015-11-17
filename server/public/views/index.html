@@ -6,32 +6,29 @@
 
     <link rel="stylesheet" href="../vendor/bootstrap.min.css">
 
-    <script type="text/javascript" src="../vendor/angular.min.js"></script>
-    <script type="text/javascript" src="../scripts/app.js"></script>
+    <script type="text/javascript" src="/vendor/angular.min.js"></script>
+    <script type="text/javascript" src="/scripts/app.js"></script>
 
 
 </head>
 <body>
 
-<div class="container" ng-controller="WelcomeController">
-    <div class="project well"><h1>Address Order Display</h1></div>
+    <div class="container" ng-controller="WelcomeController">
+        <div class="project well"><h1>Address Order Display</h1></div>
+        <div>
+            <select ng-model="selection" ng-options="user.name for user in usersArray" ng-change="change(selection.name)">
+                <!--<option ng-repeat="user in usersArray">{{user.name}}</option>-->
+            </select>
+            <!--<div>{{selection.name}}</div>-->
 
-    <select ng-model="selection" ng-options="user.name for user in usersArray"></select>
-    <p>{{selection.name}}</p>
-    <!--<select>-->
-    <!--<option ng-repeat="user in usersArray">{{user.name}}</option>-->
-    <!--</select>-->
+        </div>
 
-
-</div>
-
-<div ng-repeat="addresses in addressesArray" class="well">
-    <div>{{addresses.address_type}}</div>
-    <div>{{addresses.address_street}}</div>
-    <div>{{addresses.address_city}}, {{addresses.address_state}}  {{addresses.address_zip}}</div>
-</div>
-
-</div>
+        <div ng-repeat="addresses in usersAddressesArray" class="well">
+            <div>{{addresses.address_type}}</div>
+            <div>{{addresses.address_street}}</div>
+            <div>{{addresses.address_city}}, {{addresses.address_state}}  {{addresses.address_zip}}</div>
+        </div>
+    </div>
 
 
 

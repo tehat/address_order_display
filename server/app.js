@@ -45,13 +45,13 @@ app.get('/users', function(req, res){
 });
 
 
-//GET Users Adresses
+//GET Addresses
 app.get('/addresses', function(req, res){
     var results = [];
 
     //SQL Query SELECT data from table
     pg.connect(connectionString, function (err, client) {
-        var query = client.query("SELECT * FROM addresses");   //<- make sure this connects to correct DB Table
+        var query = client.query("SELECT * FROM addresses");        //<- make sure this connects to correct DB Table
 
         //stream results back one row at a time, push into results array
         query.on('row', function (row) {
@@ -73,6 +73,40 @@ app.get('/addresses', function(req, res){
 });
 
 
+//GET Chosen users addresses
+app.get('/change/:name', function(req, res){
+    var pullAddresses = req.params.name;
+
+    var results = [];
+
+    //SQL Query SELECT data from table
+    pg.connect(connectionString, function (err, client) {
+
+        var query = client.query("SELECT users.name, users.id, addresses.* " +
+            "FROM addresses JOIN users ON users.id = addresses.user_id " +
+            "WHERE users.name = $1", [pullAddresses]);   //<- make sure this connects to correct DB Table
+
+
+
+        //stream results back one row at a time, push into results array
+        query.on('row', function (row) {
+            results.push(row);
+            console.log(row);
+        });
+
+        //after all data is returned, return results
+        query.on('end', function () {
+            client.end();
+            return res.json(results);
+        });
+
+        //handle Errors
+        if (err) {
+            console.log(err);
+        }
+
+    });
+});
 
 
 app.get("/*", function(req, res){

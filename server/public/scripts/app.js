@@ -15,15 +15,8 @@ myApp.controller("WelcomeController", ['$scope', '$http', function($scope, $http
     $scope.addresses = {};
     $scope.addressesArray = [];
 
-    ////POST
-    //$scope.clickButton = function(request){
-    //    console.log("button click",request);
-    //
-    //    $http.post('/people', request).then(function(response){
-    //        $scope.getPeople();
-    //    })
-    //    $scope.note = {};
-    //};
+    $scope.selection = {};
+    $scope.usersAddressesArray = [];
 
     //GET Users
     $scope.getUsers = function(){
@@ -36,15 +29,27 @@ myApp.controller("WelcomeController", ['$scope', '$http', function($scope, $http
 
     $scope.getUsers();
 
-    //GET Users Addresses
-    $scope.getAddresses = function(){
-        console.log("is this working 3?");
-        $http.get('/addresses').then(function(response){
-            console.log(response.data);
-            $scope.addressesArray = response.data;
-        });
+    ////GET Addresses
+    //$scope.getAddresses = function(){
+    //    console.log("is this working 4?");
+    //    $http.get('/addresses').then(function(response){
+    //        console.log(response.data);
+    //        $scope.addressesArray = response.data;
+    //    });
+    //};
+    //
+    //$scope.getAddresses();
+
+    //GET Chosen users addresses
+    $scope.change = function(name){
+        console.log("selection made for addresses", $scope.selection);
+
+        if(name){$http.get('/change/' + name).then(function(response){
+            console.log(response);
+            $scope.usersAddressesArray = response.data;
+        });}
     };
 
-    $scope.getAddresses();
+    $scope.change();
 
 }]);
